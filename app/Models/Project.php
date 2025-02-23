@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
@@ -15,6 +16,10 @@ class Project extends Model
     {
         static::creating(function (Project $project) {
             $project->user_id = auth()->id();
+        });
+
+        static::addGlobalScope(function (Builder $builder) {
+            $builder->where('user_id', auth()->id());
         });
     }
 }
